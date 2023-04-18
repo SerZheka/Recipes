@@ -1,0 +1,78 @@
+﻿@using static DataAccess.Models.Ingredient
+@using Ingredient = MyRecipes.DataAccess.Models.Ingredient
+
+
+<div class="container">
+    <!--Ingredients Title-->
+    <div class="row recipe-inputs ingredients-input">
+        <div class="col-12">
+            <p>Ingredients</p>
+        </div>
+    </div>
+    <!--Ingredients Fields-->
+    <div class="form-row">
+        <label asp-for="Recipe.Ingredients"></label>
+        <span class="text-danger" asp-validation-for="Recipe.Ingredients"></span>
+        @if (Ingredients.Count == 0)
+        {
+            <div class="col-12 alert alert-secondary item-empty-msg" role="alert">
+                <p> Your Ingredients List is empty. Not for much longer!</p>
+            </div>
+        }
+        @for (var i = 0; i < Ingredients.Count; i++)
+        {
+            var ingredient = Ingredients[i];
+            <input type="hidden" name="Recipe.Ingredients[@i].Id" value="@ingredient.Id">
+            <!--Amount-->
+            <div class="form-group col-md-2">
+                <input class="form-control" type="text" name="Recipe.Ingredients[@i].Amount" value="@ingredient.Amount">
+            </div>
+            <!-- Amount Unit-->
+            <div class="form-group col-md-3">
+                <select class="custom-select" name="Recipe.Ingredients[@i].Unit" @bind="ingredient.Unit">
+                    @foreach (var unit in (UnitType[])Enum.GetValues(typeof(UnitType)))
+                    {
+                        <option value="@unit">@unit</option>
+                    }
+                </select>
+            </div>
+            <!-- Name-->
+            <div class="form-group col-md-6">
+                <input class="form-control" type="text" placeholder="Ingredient Name" name="Recipe.Ingredients[@i].Name" value="@ingredient.Name">
+            </div>
+            <div class="form-group col-md-1">
+                <!-- Delete Ingredient-->
+                <button class="btn" @onclick="() => DeleteIngredientField(ingredient)" @onclick:preventDefault="true"><i class="bi-x-circle" style="color: forestgreen"></i></button>
+            </div>
+        }
+    </div>
+    <!--Add new Ingredient-->
+    <div class="row col-12">
+        <button class="btn btn-minor" @onclick="AddIngredientField" @onclick:preventDefault="true">Add Ingredient</button>
+    </div>
+</div>
+
+
+@code {
+
+    [Parameter]
+    public List<Ingredient> Ingredients { get; set; }
+
+    private void AddIngredientField()
+    {
+        var newIngredient = new Ingredient();
+        Ingredients.Add(newIngredient);
+
+    }
+
+    private void DeleteIngredientField(Ingredient ingredient)
+    {
+        Ingredients.Remove(ingredient);
+    }
+
+    protected override void OnParametersSet()
+    {
+        
+    }
+}
+

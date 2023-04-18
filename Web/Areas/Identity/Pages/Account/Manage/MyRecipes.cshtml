@@ -1,0 +1,87 @@
+﻿@page
+@model MyRecipes.Areas.Identity.Pages.Account.Manage.MyRecipesModel
+@{
+    ViewData["Title"] = "My recipes";
+    Layout = "Manage/_Layout";
+}
+
+<div class="container">
+    <!--Search recipes-->
+    <div class="row">
+        <div class="col-12">
+            <nav class="navbar navbar-light bg-light float-right">
+                <form class="form-inline">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="searchTerm">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+            </nav>
+        </div>
+    </div>
+
+    <!--Recipes List-->
+    <div class="row recipe-list-description" id="recipes">
+        <h3>Check Recipes and Create your Cookbook for the week</h3>
+    </div>
+    <div class="row">
+        @foreach (var recipe in Model.Recipes)
+        {
+            <div class="col-md-4 col-sm-12" onclick="window.location = ('./Recipes/@recipe.Id')" style="cursor: pointer">
+                <div class="card">
+                    <img class="card-img-top" src="@recipe.ImageUrl" alt="Card image cap"/>
+                    <div class="card-body">
+                        <!--Recipe Info-->
+                        <p class="card-text">
+                            <i class="bi-clock"></i><small class="text-muted"> @(recipe.PrepTimeinMinutes + recipe.CookTimeinMinutes) min.</small>
+                        </p>
+                        <h3 class="card-title text-capitalize" id="recipe-title">@recipe.Name</h3>
+                        <p class="card-text text-muted description-text" id="recipe-descrip">@recipe.Description</p>
+
+                        <div class="d-flex justify-content-end">
+                            <div class="">
+                                <!-- See Recipe Details-->
+                                <a class="btn" asp-page="/Recipes/Detail" asp-route-recipeId="@recipe.Id">
+                                    <i class="bi-zoom-in" style="color: forestgreen"></i>
+                                </a>
+                            </div>
+                            <div class="">
+                                <!-- Add/Remove to/from Cookbook-->
+                                @if (Model.CurrentMenu.Contains(recipe.Id))
+                                {
+                                    <form class="" method="post" asp-page="/Recipes/RemoveFromMenu" asp-route-recipeId="@recipe.Id">
+                                        <button class="btn">
+                                            <i class="bi-bookmark-fill" style="color: forestgreen"></i>
+                                        </button>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <form class="" method="post" asp-page="/Recipes/SavetoMenu" asp-route-recipeId="@recipe.Id">
+                                        <button class="btn">
+                                            <i class="bi-bookmark" style="color: forestgreen"></i>
+                                        </button>
+                                    </form>
+                                }
+                            </div>
+                            <div class="">
+                                <a class="btn" asp-page="/Recipes/Edit" asp-route-recipeId="@recipe.Id">
+                                    <i class="bi-pencil" style="color: forestgreen"></i>
+                                </a>
+                            </div>
+                            <div class="">
+                                <a class="btn" asp-page="/Recipes/Delete" asp-route-recipeId="@recipe.Id">
+                                    <i class="bi-trash" style="color: forestgreen"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <!--Add New Recipe Link-->
+    <div class="row">
+        <div class="col-4 offset-8">
+            <a asp-page="/Recipes/Create" class="btn btn-main float-right">Add New Recipe</a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/hawklabdb/databases/InspiredCookingDB",
+      "type": "mssql.azure",
+      "connectionId": "RecipesDb",
+      "secretStore": "AzureAppSettings"
+    }
+  }
+}

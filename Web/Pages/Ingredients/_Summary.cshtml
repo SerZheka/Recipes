@@ -1,0 +1,17 @@
+﻿@model MyRecipes.DataAccess.Models.Ingredient
+
+<div>
+    <h5 class="card-title">@Model.Name</h5>
+</div>
+
+<div>
+    <a class="btn btn-lg" asp-page="./Detail" asp-route-ingredientId="@Model.Id">
+        <i class="zoom">Show</i>
+    </a>
+    <a class="btn btn-lg" asp-page="./Edit" asp-route-ingredientId="@Model.Id">
+        <i class="edit">Edit</i>
+    </a>
+    <a class="btn btn-lg" asp-page="./Delete" asp-route-ingredientId="@Model.Id">
+        <i class="edit">Delete</i>
+    </a>
+</div>

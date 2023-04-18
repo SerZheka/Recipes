@@ -1,0 +1,189 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;600;700&family=Roboto:wght@100;300;400&display=swap');
+
+
+a.navbar-brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+}
+
+/* Provide sufficient contrast against white background */
+a {
+  color: #0366d6;
+}
+
+p {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+}
+
+.recipe-inputs p {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+}
+
+.ingredients-input {
+    margin-top: 20px;
+}
+
+.nav-item {
+    color: #008601;
+    font-weight: 400;
+}
+
+.alert p {
+    margin-top: 10px;
+}
+
+#logo {
+    width: 75px;
+}
+
+#landing-row {
+    padding-top: 80px;
+    margin-bottom: 40px;
+}
+#landing-text {
+    padding-right: 60px;
+    padding-top: 60px;
+    font-family: 'Nunito', sans-serif;
+}
+#landing-image {
+   
+}
+
+.landing-btn {
+    margin-top: 40px;
+    margin-right: 10px;
+}
+
+.recipe-list-description {
+    margin-top: 15px;
+    margin-bottom: 25px;
+}
+
+#recipe-title {
+    font-family: 'Nunito', sans-serif;
+}
+
+#recipe-descrip {
+    font-family: 'Roboto', sans-serif;
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+}
+
+.row {
+    padding: 4px;
+}
+
+.card {
+    margin-bottom: 4px;  
+}
+
+.btn-main {
+    color: #fff;
+    background-color: #008601;
+    border-color: #008601;
+}
+
+.btn-main:hover {
+        color: #fff;
+        background-color: #006b01;
+        border-color: #008601;
+  }
+
+.btn-minor {
+    color: #fff;
+    background-color: #454545;
+    border-color: #454545;
+}
+
+.btn-minor:hover {
+    color: #fff;
+    background-color: #191919;
+    border-color: #191919;
+}
+
+.viewed-recipes {
+    margin-bottom: 40px;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+/*  Details Page ---------------- */
+.detail-description{
+    margin-bottom: 40px;
+}
+
+.edit-delete {
+    margin: auto;
+}
+
+.header-menu{
+    padding-top: 10px;
+    
+}
+
+/*  Create Page ---------------- */
+.image-input {
+    font-family: 'Roboto', sans-serif;
+    height: 45px;
+}
+
+.item-empty-msg {
+    text-align: center;
+}
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    font-size: 14px;
+}
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.border-top {
+  border-top: 1px solid #e5e5e5;
+}
+.border-bottom {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 100px;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  line-height: 60px; 
+}

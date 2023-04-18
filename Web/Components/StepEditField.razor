@@ -1,0 +1,65 @@
+﻿@using MyRecipes.DataAccess.Models
+<div class="container">
+    <!-- Steps Title-->
+    <div class="row">
+        <div class="col-12 recipe-inputs">
+            <p>Steps</p>
+        </div>
+    </div>
+    <!-- Steps Fields-->
+    <div class="form-row">
+        <label asp-for="Recipe.Steps"></label>
+        <span class="text-danger" asp-validation-for="Recipe.Steps"></span>
+        @if (Steps.Count == 0)
+        {
+            <div class="col-12 alert alert-secondary item-empty-msg" role="alert">
+                <p> You'll need to know the steps. Add Step to start!</p>
+            </div>
+        }
+        @for (var i = 0; i < Steps.Count; i++)
+        {
+            var step = Steps[i];
+            <input type="hidden" name="Recipe.Steps[@i].Id" value="@step.Id">
+            <!--Title-->
+            <div class="form-group col-6">
+                <input class="form-control" type="text" placeholder="Step Title" name="Recipe.Steps[@i].Title" value="@step.Title">
+            </div>
+            <!-- Delete Step-->
+            <div class="form-group col-1">
+                <button class="btn" @onclick="() => DeleteStepField(step)" @onclick:preventDefault="true"><i class="bi-x-circle" style="color: forestgreen"></i></button>
+            </div>
+            <!--Content-->
+            <div class="form-group col-12">
+                <textarea class="form-control" type="text" placeholder="Step Content" name="Recipe.Steps[@i].Content" value="@step.Content"></textarea>
+            </div>
+        }
+    </div>
+    <!--Add new Step-->
+    <div class="row col-12">
+        <button class="btn btn-minor" @onclick="AddStepField" @onclick:preventDefault="true">Add Step</button>
+    </div>
+</div>
+
+
+
+@code {
+    [Parameter]
+    public List<Step> Steps { get; set; }
+
+    private void AddStepField()
+    {
+        var newStep = new Step();
+        Steps.Add(newStep);
+
+    }
+
+    private void DeleteStepField(Step step)
+    {
+        Steps.Remove(step);
+    }
+
+    protected override void OnParametersSet()
+    {
+
+    }
+}

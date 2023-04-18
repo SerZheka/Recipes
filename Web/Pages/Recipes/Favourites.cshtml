@@ -1,0 +1,94 @@
+@page "/favourites"
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using MyRecipes.DataAccess.Models
+@model MyRecipes.Pages.Recipes.Favourites
+@inject SignInManager<ApplicationUser> SignInManager
+
+@{
+    ViewData["Title"] = "Recipes";
+}
+@if (SignInManager.IsSignedIn(User))
+{
+    <div class="container">
+        <!--Search recipes-->
+        <div class="row">
+            <div class="col-12">
+                <nav class="navbar navbar-light bg-light float-right">
+                    <form class="form-inline">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="searchTerm">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    </form>
+                </nav>
+            </div>
+        </div>
+
+        <!--Recipes List-->
+        <div class="row recipe-list-description" id="recipes">
+            <h3>Check Recipes and Create your Cookbook for the week</h3>
+        </div>
+        <div class="row">
+            @foreach (var recipe in Model.Recipes.Select(r => r.Recipe))
+            {
+                <div class="col-lg-3 col-md-4 col-sm-12" onclick="window.location = ('./Recipes/@recipe.Id')" style="cursor: pointer">
+                    <div class="card">
+                        <img class="card-img-top" src="@recipe.ImageUrl" alt="Card image cap"/>
+                        <div class="card-body">
+                            <!--Recipe Info-->
+                            <p class="card-text">
+                                <i class="bi-clock"></i><small class="text-muted"> @(recipe.PrepTimeinMinutes + recipe.CookTimeinMinutes) min.</small>
+                            </p>
+                            <h3 class="card-title text-capitalize" id="recipe-title">@recipe.Name</h3>
+                            <p class="card-text text-muted description-text" id="recipe-descrip">@recipe.Description</p>
+
+                            <div class="d-flex justify-content-end">
+                                <div class="">
+                                    <!-- See Recipe Details-->
+                                    <a class="btn" asp-page="./Detail" asp-route-recipeId="@recipe.Id">
+                                        <i class="bi-zoom-in" style="color: forestgreen"></i>
+                                    </a>
+                                </div>
+                                <div class="">
+                                    <!-- Add/Remove to/from Cookbook-->
+                                    @if (Model.CurrentMenu.Contains(recipe.Id))
+                                    {
+                                        <form class="row" method="post" asp-page="./RemoveFromMenu" asp-route-recipeId="@recipe.Id">
+                                            <button class="btn">
+                                                <i class="bi-bookmark-fill" style="color: forestgreen"></i>
+                                            </button>
+                                        </form>
+                                    }
+                                    else
+                                    {
+                                        <form class="row" method="post" asp-page="./SavetoMenu" asp-route-recipeId="@recipe.Id">
+                                            <button class="btn">
+                                                <i class="bi-bookmark" style="color: forestgreen"></i>
+                                            </button>
+                                        </form>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <!--Add New Recipe Link-->
+        <div class="row">
+            <div class="col-4 offset-8">
+                <a asp-page=".\Create" class="btn btn-main float-right">Add New Recipe</a>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h2>Login to add to favourites</h2>
+            </div>
+            <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-main landing-btn">Login</a>
+        </div>
+    </div>
+}

@@ -1,0 +1,26 @@
+﻿@page
+@model ListModel
+@{
+    ViewData["Title"] = "Recipes";
+}
+
+<h1>Ingredients</h1>
+
+<form method="get">
+    <div class="form-group">
+        <div class="input-group">
+            <input type="search" class="form-control" name="searchTerm" />
+            <span class="input-group-btn">
+                <button class="btn btn-default"></button>
+                <i class="search"></i>
+            </span>
+        </div>
+    </div>
+</form>
+
+@foreach(var ingredient in Model.Ingredients)
+{
+    <partial name="_Summary" model="ingredient" />
+}
+
+<a asp-page=".\Edit" class="btn btn-primary">Add new</a>

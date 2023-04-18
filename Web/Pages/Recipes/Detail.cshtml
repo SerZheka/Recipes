@@ -1,0 +1,178 @@
+@page "/recipes/{recipeId:int}"
+@model DetailModel
+@using Microsoft.AspNetCore.Http.Extensions
+@{
+    ViewData["Title"] = "Recipe Details";
+}
+
+<div class="container">
+    <!--Grid row Message-->
+    <div class="row">
+        <!--Grid column-->
+        <div class="col-12">
+            @if (Model.Message != null)
+            {
+                <div class="alert alert-info">@Model.Message</div>
+            }
+        </div>
+    </div>
+
+    <!--Grid row-->
+    <div class="row">
+        <!-- Grid column Recipe Name-->
+        <div class="col">
+            <h1 class="display-4 text-capitalize col-12">@Model.Recipe.Name</h1>
+        </div>
+        <!-- Grid column Recipe Edit/Delete-->
+        <div class="col edit-delete">
+            <!-- Grid column Edit/Delete Recipe-->
+            @if (Model.CurrentUserId == Model.Recipe.UserId && Model.CurrentUserId != null)
+            {
+                <a class="btn" asp-page="./Edit" asp-route-recipeId="@Model.Recipe.Id">
+                    <i class="bi-pencil" style="color: forestgreen" title="Edit"></i>
+                </a>
+                <a class="btn" asp-page="./Delete" asp-route-recipeId="@Model.Recipe.Id">
+                    <i class="bi-trash" style="color: forestgreen" title="Delete" ></i>
+                </a>
+            }
+        </div>
+    </div>
+    <!--Grid row Recipe Information-->
+    <div class="row">
+        <!--Grid column Image-->
+        <div class="col-sm-12 col-md-4 col-lg-6">
+            <img class="card-img-top" src="@Model.Recipe.ImageUrl" alt="Card image cap" />
+        </div>
+
+        <!--Grid column Content-->
+        <div class="col-lg-6 col-md-6 col-sm-12">
+            <div><p class="detail-description">@Model.Recipe.Description</p></div>
+            <div>
+                <p><i class="bi-clock"></i><strong> Preptime:</strong> @Model.Recipe.PrepTimeinMinutes min.</p>
+                <p><i class="bi-clock"></i><strong> Cooktime:</strong> @Model.Recipe.CookTimeinMinutes min.</p>
+                <p><i class="bi-people"></i><strong> Serving:</strong> @Model.Recipe.Servings people</p>
+                <p><i class="bi-shield"></i><strong> Difficulty:</strong> @Model.Recipe.Difficulty</p>
+                <p><i class="bi-geo"></i><strong> Cuisine:</strong> @Model.Recipe.Cuisine Cuisine</p>
+            </div>
+        </div>
+    </div>
+    <!--Grid row Actions-->
+    <div class="row">
+        <!--Share Recipe-->
+        <div class="col-2">
+            <!-- Modal Trigger -->
+            <button class="btn" data-toggle="modal" data-target="#shareModal">
+                <i class="bi-share" style="color: forestgreen"> Share</i>
+            </button>
+        </div>
+        <!-- Modal Structure -->
+        <div id="shareModal" class="modal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Share Recipe</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" class="form-control" name="myvalue" id="myvalue" value="@Model.Request.GetEncodedUrl()" readonly />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button class="btn btn-primary" onclick="copyToClipboard()">Copy</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Add/Remove to/from Cookbook-->
+        <div class="col-2">
+            @if (Model.CurrentMenu.Contains(Model.Recipe.Id))
+            {
+                <form class="row" method="post" asp-page="./RemoveFromMenu" asp-route-recipeId="@Model.Recipe.Id">
+                    <button class="btn">
+                        <i class="bi-bookmark-fill" style="color: forestgreen"> Remove from Cookbook</i>
+                    </button>
+                </form>
+            }
+            else
+            {
+                <form class="row" method="post" asp-page="./SavetoMenu" asp-route-recipeId="@Model.Recipe.Id">
+                    <button class="btn">
+                        <i class="bi-bookmark" style="color: forestgreen"> Add to Cookbook</i>
+                    </button>
+                </form>
+            }
+        </div>
+        <!-- Add to Favorites-->
+        <div class="col-2">
+            @if (Model.CurrentUserId != Model.Recipe.UserId)
+            {
+                @if (!Model.IsFavorited)
+                {
+                    <form class="row" method="post" asp-page="./AddToFavorites" asp-route-recipeId="@Model.Recipe.Id">
+                        <button class="btn">
+                            <i class="bi-suit-heart" style="color: forestgreen"> Add to Favorites</i>
+                        </button>
+                    </form>
+                }
+                else
+                {
+                    <form class="row" method="post" asp-page="./RemoveFromFavorites" asp-route-recipeId="@Model.Recipe.Id">
+                        <button class="btn">
+                            <i class="bi-suit-heart-fill" style="color: forestgreen"> Remove from Favorites</i>
+                        </button>
+                    </form>
+                }
+            }
+        </div>
+    </div>
+    <!--Grid row-->
+    <div class="row">
+        <!--Grid column Recipe Ingredients-->
+        <div class="col-12">
+            <p class="font-weight-bold">Ingredients:</p>
+
+            @foreach (var ingredient in Model.Recipe.Ingredients)
+            {
+                <ul>
+                    <li>
+                        @ingredient.Name
+                        @ingredient.Amount
+                        @ingredient.Unit
+                    </li>
+                </ul>
+            }
+        </div>
+    </div>
+    <!--Grid row-->
+    <div class="row">
+        <!--Grid column Recipe Steps-->
+        <div class="col-12">
+            <p class="font-weight-bold">Steps:</p>
+
+            @foreach (var step in Model.Recipe.Steps)
+            {
+                <h5>@step.Title</h5>
+                <p>@step.Content</p>
+            }
+        </div>
+    </div>
+    <!--Grid row -->
+    <div class="row">
+        <!--Grid column-->
+        <div class="col-4 offset-8">
+            <a asp-page="./List" class="btn btn-minor float-right">Back to Recipes</a>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        function copyToClipboard() {
+            var textBox = document.getElementById("myvalue");
+            textBox.select();
+            document.execCommand("copy");
+        }
+    </script>
+}

@@ -1,0 +1,11 @@
+﻿@using MyRecipes.Areas.Identity.Pages.Account.Manage
+
+<ul class="nav nav-pills flex-column">
+    <li class="nav-item"><a class="nav-link @ManageNavPages.IndexNavClass(ViewContext)" id="profile" asp-page="./Index">Profile</a></li>
+    <li class="nav-item"><a class="nav-link @ManageNavPages.ChangePasswordNavClass(ViewContext)" id="change-password" asp-page="./ChangePassword">Password</a></li>
+    <li class="nav-item"><a class="nav-link @ManageNavPages.MyRecipesNavClass(ViewContext)" id="my-recipes" asp-page="./MyRecipes" asp-route-UserId="@IndexModel.Id">MyRecipes</a></li>
+    @if (User.IsInRole("admin"))
+    {
+        <li class="nav-item"><a class="nav-link @ManageNavPages.AdminPanelNavClass(ViewContext)" id="admin-panel" asp-page="./AdminPanel">AdminPanel</a></li>
+    }
+</ul>

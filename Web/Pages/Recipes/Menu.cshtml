@@ -1,0 +1,57 @@
+﻿@page "/recipes/menu"
+@model MyRecipes.Pages.Recipes.MenuModel
+@{
+    ViewData["Title"] = "Menu";
+}
+
+<div class="container">
+    <!--Grid row Menu Title-->
+    <div class="row">
+        <div class="col-12">
+            <h3>Your Cookbook</h3>
+        </div>
+    </div>
+    <!--Grid row Menu List-->
+    <div class="row">
+        @foreach (var recipe in Model.Recipes)
+        {
+            <div class="col-lg-2 col-md-4 col-sm-6">
+                <div class="card">
+                    <img class="card-img-top" src="@recipe.ImageUrl" alt="Card image cap"/>
+                    <div class="card-body">
+                        <p>
+                            <i class="bi-bag-check-fill"></i><strong> Recipe:</strong> @recipe.Name
+                        </p>
+                        <p><i class="bi-geo"></i><strong> Cuisine:</strong> @recipe.Cuisine Cuisine</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <!--Grid row Menu Ingredients-->
+    <div class="row">
+        <!--Grid column-->
+        <div class="col-12">
+            <h3>And this are the ingredients you will need:</h3>
+            <p>The ingredientes for all your recipes in your Cookbook.</p>
+        </div>
+        <div class="row">
+            @foreach (var recipe in Model.Recipes)
+            {
+                @foreach (var ingredient in recipe.Ingredients)
+                {
+                    <div class="col-md-6 col-sm-12">
+                        <ul>
+                            <li>
+                                @ingredient.Name
+                                @ingredient.Amount
+                                @ingredient.Unit
+                            </li>
+                        </ul>
+                    </div>
+                }
+            }
+
+        </div>
+    </div>
+</div>

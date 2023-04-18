@@ -1,0 +1,33 @@
+﻿<!--Preptime-->
+<div class="for-group row">
+    <input type="hidden" name="@PropertyName" @bind="TimeInMinutes">
+    <label asp-for="@PropertyName" class="col-form-label"></label>
+    <div class="col">
+        <input class="form-control" @bind="Hours"/>
+        <span class="text-danger" asp-validation-for="Recipe.CookTimeInMinutes"></span>
+    </div>
+    <div class="col">
+        <input class="form-control" @bind="Minutes"/>
+        <span class="text-danger" asp-validation-for="Recipe.PrepTimeInMinutes"></span>
+    </div>
+</div>
+
+@code {
+
+    [Parameter]
+    public int TimeInMinutes
+    {
+        get => Hours * 60 + Minutes;
+        set
+        {
+            Hours = value / 60;
+            Minutes = value % 60;
+        }
+    }
+
+    [Parameter]
+    public string PropertyName { get; set; }
+
+    private int Hours { get; set; }
+    private int Minutes { get; set; }
+}

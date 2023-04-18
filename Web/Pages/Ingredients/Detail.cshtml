@@ -1,0 +1,11 @@
+﻿@page
+@model DetailModel
+@{
+    ViewData["Title"] = "Ingredient Detail";
+}
+
+<div>
+    Name: @Model.Ingredient.Name
+</div>
+
+<a asp-page="./List" class="btn btn-default">All Ingredients</a>

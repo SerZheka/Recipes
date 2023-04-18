@@ -1,0 +1,14 @@
+﻿@page "/recipes/{recipeId}/delete"
+@model DeleteModel
+@{
+}
+
+<h2>Delete</h2>
+<div class="alert alert-danger">
+    Are you sure you want to delete @Model.Recipe.Name?
+</div>
+<form method="post">
+    <button type="submit" class="btn btn-danger">Yes</button>
+    <a asp-page="List" class="btn btn-default">Cancel</a>
+</form>
+

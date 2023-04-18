@@ -1,0 +1,117 @@
+@page "/recipes/Create"
+@using MyRecipes.Components
+@model CreateModel
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="container">
+    <!--Grid row Recipe Title-->
+    <div class="row">
+        <!--Grid column-->
+        <div class="col-12">
+            <h1 class="display-4 text-capitalize col-12">New Recipe:</h1>
+        </div>
+    </div>
+    <!--Grid row Recipe Creating Fields-->
+    <div class="row">
+        <!--Grid column-->
+        <div class="col-12">
+            <form method="post" enctype="multipart/form-data">
+                <!--Name-->
+                <div class="for-group row">
+                    <input type="hidden" asp-for="Recipe.Id">
+                    <label asp-for="Recipe.Name" class="col-sm-2 col-form-label">Name</label>
+                    <div class="col-sm-10">
+                        <input asp-for="Recipe.Name" class="form-control"/>
+                        <span class="text-danger" asp-validation-for="Recipe.Name"></span>
+                    </div>
+                </div>
+                <!--Description-->
+                <div class="for-group row">
+                    <label asp-for="Recipe.Description" class="col-sm-2 col-form-label"></label>
+                    <div class="col-sm-10">
+                        <textarea asp-for="Recipe.Description" class="form-control" type="text"></textarea>
+                        <span class="text-danger" asp-validation-for="Recipe.Description"></span>
+                    </div>
+                </div>
+                <!--Preptime-->
+                <div class="for-group row">
+                    <div class="col">
+                        <p>Preptime</p>
+                    </div>
+                    <div class="col">
+                        <component type="typeof(TimeEditField)" param-TimeInMinutes="@Model.Recipe.PrepTimeinMinutes" param-PropertyName="@("Recipe.PrepTimeinMinutes")" render-mode="Server"/>
+                    </div>
+                </div>
+                <!--Cooktime-->
+                <div class="for-group row">
+                    <div class="col">
+                        <p>Cooktime</p>
+                    </div>
+                    <div class="col">
+                        <component type="typeof(TimeEditField)" param-TimeInMinutes="@Model.Recipe.CookTimeinMinutes" param-PropertyName="@("Recipe.CookTimeinMinutes")" render-mode="Server"/>
+                    </div>
+                </div>
+                <!--Servings-->
+                <div class="for-group row">
+                    <label asp-for="Recipe.Servings" class="col-sm-2 col-form-label"></label>
+                    <div class="col-sm-10">
+                        <input asp-for="Recipe.Servings" class="form-control"/>
+                        <span class="text-danger" asp-validation-for="Recipe.Servings"></span>
+                    </div>
+                </div>
+                <!--Difficulty-->
+                <div class="for-group row">
+                    <label asp-for="Recipe.Difficulty" class="col-sm-2 col-form-label"></label>
+                    <div class="col-sm-10">
+                        <select class="form-select custom-select" aria-label="Default select example"
+                                asp-for="Recipe.Difficulty" asp-items="@Model.Difficulty">
+                        </select>
+                        <span class="text-danger" asp-validation-for="Recipe.Difficulty"></span>
+                    </div>
+                </div>
+                <!--Cuisine-->
+                <div class="for-group row">
+                    <label asp-for="Recipe.Cuisine" class="col-sm-2 col-form-label"></label>
+                    <div class="col-sm-10">
+                        <select class="form-select custom-select" aria-label="Default select example"
+                                asp-for="Recipe.Cuisine" asp-items="@Model.Cuisines">
+                        </select>
+                        <span class="text-danger" asp-validation-for="Recipe.Cuisine"></span>
+                    </div>
+                </div>
+                <!--Image-->
+                <div class="for-group row">
+                    <div class="col recipe-inputs">
+                        <p>Image</p>
+                        <div>
+                            <input asp-for="NewImage" type="file" class="form-control image-input">
+                            <span class="text-danger" asp-validation-for="NewImage"></span>
+                        </div>
+                    </div>
+                </div>
+                <!--Ingredients-->
+                <component type="typeof(IngredientEditField)" param-Ingredients="@Model.Recipe.Ingredients" render-mode="Server"/>
+
+                <!--Steps-->
+                <component type="typeof(StepEditField)" param-Steps="@Model.Recipe.Steps" render-mode="Server"/>
+
+                <!--Grid row Recipe Saving Fields-->
+                <div class="row">
+                    <!--Grid column-->
+                    <div class="col-4 offset-8">
+                        <button type="submit" class="btn btn-main float-right">Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial"/>
+    <script src="/_framework/blazor.server.js"></script>
+}
